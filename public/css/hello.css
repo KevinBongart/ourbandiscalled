@@ -1,0 +1,36 @@
+body {
+	background-color: #B9D7D9;
+	width: 400px;
+	text-align: center;
+	font-family: "Chunk", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	margin: 50px auto auto;
+}
+
+@font-face {
+	font-family: "Chunk";
+	src: url(Chunk.otf);
+}
+
+#cover {
+	width: 400px;
+	background: url(vinyl.png) no-repeat 150px;
+}
+
+img {
+	-moz-box-shadow: 1px 1px 5px #df0000;
+	-webkit-box-shadow: 0px 1px 5px #000;
+	box-shadow: 0 0 5px #000;
+	height: 240px;
+}
+
+h1 {
+	text-shadow: #d8fafe 0 1px 1px;
+	color: #2A2829;
+	font-size: 300%;
+}
+
+h2 {
+	text-shadow: #d8fafe 0 1px 1px;
+	color: #493736;
+	font-size: 200%;
+}
