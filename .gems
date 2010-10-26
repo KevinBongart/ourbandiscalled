@@ -1,5 +1,4 @@
 sinatra
-net/http
 json
 hpricot
 rest-open-uri
