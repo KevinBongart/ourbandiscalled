@@ -5,6 +5,8 @@ require 'json'
 require 'hpricot'
 require 'rest-open-uri'
 
+mime_type '.otf',  "application/x-font-otf"
+
 def get_http(url)
   url = URI.parse(url)
   req = Net::HTTP::Get.new(url.request_uri, "User-Agent" => "ourbandiscalled")
