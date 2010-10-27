@@ -4,7 +4,6 @@ require 'net/http'
 require 'json'
 require 'hpricot'
 require 'rest-open-uri'
-require 'sinatra/base'
 
 def get_http(url)
   url = URI.parse(url)

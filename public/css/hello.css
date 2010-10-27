@@ -37,6 +37,12 @@ img {
 
 h1 {
 	font-size: 40px;
+	margin-top: 0px;
+}
+
+#by {
+	opacity: .5;
+	font-size: 15px;
 }
 
 h2 {
