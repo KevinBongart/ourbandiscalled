@@ -1,19 +1,41 @@
-<title>Our Band Is Called…</title>
-<link href="/css/hello.css" rel="stylesheet" type="text/css" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<div id="cover">
-  <a href="/"><img src="<%= @album_cover %>" /></a>
-</div>
-<h1><%= @band_name %></h1>
-<h2><%= @album_name %></h2>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Our Band Is Called...</title>
+	<link href="/css/hello.css" rel="stylesheet" type="text/css" />
+	<meta name="viewport" content="width=400, user-scalable=yes">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+</head>
 
-<p><i>Our Band Is Called…</i> is a Rock 'n' Roll band name generator implementing <a href="http://dubiousquality.blogspot.com/2008/01/rock-band-99.html">Bill Harris' algorithm</a>:</p>
-<p>Your band is named after <a href="<%= @band_name_url %>">a random Wikipedia page</a>.</p>
-<p>Your album comes from the last four words of <a href="<%= @album_name_url %>">a random quote</a>.</p>
-<p>Your album cover is the third picture on <a href="<%= @album_cover_url %>">Flick's interesting pictures</a>.</p>
-<p>Click on your album cover or refresh to generate a new band.</p>
-<p>Made by <a href="http://0to88.com">0to88</a>.</p>
+<body>
+	<div id="vinyl">
+		<div id="cover">
+		  <a href="/"><img src="<%= @album_cover %>" /></a>
+		</div>
+	</div>
+	<h1><%= @band_name %></h1>
+	<h2><%= @album_name %></h2>
 
-<div class="ribbon">
-  <a href="http://github.com/KevinBongart/ourbandiscalled" rel="me">Fork me on GitHub</a>
-</div>
+	
+	<a id="wtf" href="#" onclick="$('#footer').toggle();return false;">WTF?</a>
+	<div id="footer">
+		<p><i>Our Band Is Called...</i> is a Rock 'n' Roll band name generator implementing <a href="http://dubiousquality.blogspot.com/2008/01/rock-band-99.html">Bill Harris' algorithm</a>:</p>
+		<p>Your band is named after <a href="<%= @band_name_url %>">a random Wikipedia page</a>.</p>
+		<p>Your album comes from the last four words of <a href="<%= @album_name_url %>">a random quote</a>.</p>
+		<p>Your album cover is the third picture on <a href="<%= @album_cover_url %>">Flick's interesting pictures</a>.</p><br />
+		<p>Click on your album cover or refresh to generate a new band.</p>
+	</div>
+	
+	<div id="made-by">
+		Made by <a href="http://0to88.com">0to88</a>
+	</div>
+
+	<div class="ribbon">
+	  <a href="http://github.com/KevinBongart/ourbandiscalled" rel="me">Fork me on GitHub</a>
+	</div>
+
+</body>
+</html>

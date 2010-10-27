@@ -6,8 +6,6 @@ require 'hpricot'
 require 'rest-open-uri'
 require 'sinatra/base'
 
-set :public, File.dirname(__FILE__) + '/public'
-
 def get_http(address)
   url = URI.parse(address)
   req = Net::HTTP::Get.new(address, "User-Agent" => "ourbandiscalled")
