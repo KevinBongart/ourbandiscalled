@@ -2,7 +2,11 @@
 <link href="/css/hello.css" rel="stylesheet" type="text/css" />
 
 <div id="cover">
-  <img src="<%= @album_cover %>" />
+  <a href="/"><img src="<%= @album_cover %>" /></a>
 </div>
 <h1><%= @band_name %></h1>
 <h2><%= @album_name %></h2>
+
+<p>Your band is named after <a href="<%= @band_name_url %>">a random Wikipedia page</a>.</p>
+<p>Your album comes from the last four words of <a href="<%= @album_name_url %>">a random quote</a>.</p>
+<p>Your album cover is the third picture on <a href="<%= @album_cover_url %>">Flick's interesting pictures</a>.</p>
