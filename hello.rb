@@ -8,22 +8,18 @@ require 'sinatra/base'
 
 set :public, File.dirname(__FILE__) + '/public'
 
-def get_http(url)
-  url = URI.parse(url)
-  req = Net::HTTP::Get.new(url.path)
-
+def get_http(address)
+  url = URI.parse(address)
+  req = Net::HTTP::Get.new(address, "User-Agent" => "ourbandiscalled")
   Net::HTTP.start(url.host, url.port) {|http| http.request(req)}
 end
 
 def get_band_name
-  pages = 1 + rand(10)
-  puts pages.to_s
-  res = get_http('http://www.wikirandom.org/json&pages=' + pages.to_s)
+  res = get_http('http://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&rnnamespace=0&format=json')
   json = JSON.parse res.body
-  random = rand(pages)
-  url = json['data'][random]['url']
-  band_name = json['data'][random]['title']
-  band_name.gsub(/ \(.*\)$/, '')
+  band_name = json['query']['random'].first['title']
+  url = 'http://en.wikipedia.org/wiki/' + band_name.gsub(/ /, '_')
+  band_name.gsub!(/ \(.*\)$/, '')
 
   {"band_name" => band_name, "url" => url}
 end
