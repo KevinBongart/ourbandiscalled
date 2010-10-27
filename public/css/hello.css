@@ -1,7 +1,7 @@
 /* @override http://localhost:4567/css/hello.css */
 
 body {
-	background-color: #B9D7D9;
+	background: #B9D7D9 url(/images/texture.png);
 	width: 400px;
 	text-align: center;
 	font-family: "Chunk", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
@@ -70,8 +70,12 @@ a, a:visited {
 	margin-left: 137px;
 }
 
-iframe {
+#share {
+	width: 400px;
 	position: absolute;
-	bottom: 20px;
-	margin-left: 30px;
+	bottom: 40px;
+}
+
+#share div {
+	display: inline;
 }
