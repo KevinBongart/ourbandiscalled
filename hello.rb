@@ -42,7 +42,7 @@ def get_album_cover
   a = body.search("span[@class*=photo_container pc_m]")[2].at("a")
   album_cover = a.at("img")
   url = 'http://www.flickr.com' + a.attributes["href"]
-  album_cover = album_cover.attributes["src"].gsub(/\_m/, "_z")
+  album_cover = album_cover.attributes["src"]
 
   {"album_cover" => album_cover, "url" => url}
 end
