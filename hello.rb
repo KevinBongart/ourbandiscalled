@@ -6,9 +6,9 @@ require 'hpricot'
 require 'rest-open-uri'
 require 'sinatra/base'
 
-def get_http(address)
-  url = URI.parse(address)
-  req = Net::HTTP::Get.new(address, "User-Agent" => "ourbandiscalled")
+def get_http(url)
+  url = URI.parse(url)
+  req = Net::HTTP::Get.new(url.request_uri, "User-Agent" => "ourbandiscalled")
   Net::HTTP.start(url.host, url.port) {|http| http.request(req)}
 end
 
