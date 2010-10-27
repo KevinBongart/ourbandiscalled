@@ -1,5 +1,9 @@
 /* @override http://localhost:4567/css/hello.css */
 
+html {
+	min-height: 650px;
+	position: relative;
+}
 
 @font-face {
 	font-family: Chunk;
@@ -53,9 +57,10 @@ h2 {
 }
 
 #footer {
-	font: 12px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font: 80% "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 	margin: auto;
-	position: absolute;
+	margin-top: 60px;
+	margin-bottom: 20px;
 	bottom: 10px;
 }
 
