@@ -1,18 +1,19 @@
 /* @override http://localhost:4567/css/hello.css */
 
-body {
-	background: #B9D7D9 url(/images/texture.png);
-	width: 500px;
-	text-align: center;
-	font-family: "Chunk", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
-	margin: 50px auto auto;
-	text-shadow: #d8fafe 0 1px 1px;
-	color: #2A2829;
-}
 
 @font-face {
 	font-family: "Chunk";
 	src: url(/Chunk.otf);
+}
+
+body {
+	background: #B9D7D9 url(/images/texture.png);
+	width: 500px;
+	text-align: center;
+	font-family: Chunk, "Chunk", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	margin: 50px auto auto;
+	text-shadow: #d8fafe 0 1px 1px;
+	color: #2A2829;
 }
 
 #vinyl {
