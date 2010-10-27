@@ -2,7 +2,7 @@
 
 body {
 	background: #B9D7D9 url(/images/texture.png);
-	width: 400px;
+	width: 500px;
 	text-align: center;
 	font-family: "Chunk", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 	margin: 50px auto auto;
@@ -16,8 +16,8 @@ body {
 }
 
 #vinyl {
-	width: 400px;
-	background: url(/images/vinyl.png) no-repeat 150px;
+	width: 500px;
+	background: url(/images/vinyl.png) no-repeat 200px;
 }
 
 #cover {
@@ -37,7 +37,7 @@ img {
 
 h1 {
 	font-size: 40px;
-	margin-top: 0px;
+	margin-top: 10px;
 }
 
 #by {
@@ -48,15 +48,14 @@ h1 {
 h2 {
 	color: #493736;
 	font-size: 30px;
+	margin-bottom: 10px;
 }
 
 #footer {
 	display: none;
 	font: 12px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
-}
-
-#footer p {
-	margin: 0px;
+	width: 60%;
+	margin: auto;
 }
 
 a, a:visited {
@@ -67,17 +66,17 @@ a, a:visited {
 #wtf {
 	position: absolute;
 	bottom: 70px;
-	margin-left: 171px;
+	width: 500px;
 }
 
 #made-by {
 	position: absolute;
 	bottom: 20px;
-	margin-left: 137px;
+	width: 500px;
 }
 
 #share {
-	width: 400px;
+	width: 500px;
 	position: absolute;
 	bottom: 40px;
 }

@@ -25,14 +25,12 @@
 	
 	<a id="wtf" href="#" onclick="$('#footer').toggle();return false;">WTF?</a>
 	<div id="footer">
-		<p><i>Our Band Is Called...</i> is a Rock 'n' Roll band name generator implementing <a href="http://dubiousquality.blogspot.com/2008/01/rock-band-99.html">Bill Harris' algorithm</a>:</p>
-		<p>Your band is named after <a href="<%= @band_name_url %>">a random Wikipedia page</a>, your album comes from the last four words of <a href="<%= @album_name_url %>">a random quote</a> and your album cover is <a href="<%= @album_cover_url %>">the third picture</a> on Flick's interesting photos.</p><br />
-		<p>Click on your album cover or refresh to generate a new band.</p><br />
-		<p>
-		<a href="http://github.com/KevinBongart/ourbandiscalled" rel="me">This is open source stuff, by the way</a>.</p>
+		This is an <a href="http://github.com/KevinBongart/ourbandiscalled" rel="me">open-source</a> implementation of <a href="http://dubiousquality.blogspot.com/2008/01/rock-band-99.html">Bill Harris' algorithm</a> for generating random band names.<br />
+		Here are the <a href="<%= @album_cover_url %>">picture on Flickr</a>, the <a href="<%= @band_name_url %>">random Wikipedia page</a> and the <a href="<%= @album_name_url %>">random quote</a><br />
+		Refresh the page to generate a new band.
 	</div>
 	<div id="share">
-		<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fourbandiscalled.com%2F&amp;layout=button_count&amp;show_faces=true&amp;width=200&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+		<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fourbandiscalled.com%2F&amp;layout=button_count&amp;show_faces=true&amp;width=200&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
 		<script src="http://platform.twitter.com/widgets.js" type="text/javascript" charset="utf-8"></script>
 		<div>
 			<a href="http://twitter.com/share?text=My band is <%= @band_name %> and we're about to release '<%= @album_name %>.'&amp;url=http://ourbandiscalled.com&amp;related=0to88:The guys who made this" class="twitter-share-button">tweet this</a>
