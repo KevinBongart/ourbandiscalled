@@ -1,0 +1,13 @@
+<%= link_to "try again", root_path %>
+
+<h1><%= @record.title %></h1>
+by
+<h1><%= @record.band %></h1>
+
+<%= image_tag @record.cover %>
+
+<ul>
+  <li><%= @record.wikipedia_url %></li>
+  <li><%= @record.quotationspage_url %></li>
+  <li><%= @record.flickr_url %></li>
+</ul>
