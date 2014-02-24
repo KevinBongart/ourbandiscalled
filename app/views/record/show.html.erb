@@ -1,13 +1,33 @@
-<%= link_to "try again", root_path %>
+<div id="vinyl">
+  <div id="cover">
+    <%= link_to image_tag(@record.cover), root_path %>
+  </div>
+</div>
 
-<h1><%= @record.title %></h1>
-by
+<h2><%= @record.title %></h2>
+
+<div id="by">
+  by
+</div>
+
 <h1><%= @record.band %></h1>
 
-<%= image_tag @record.cover %>
+<div id="footer">
+  <div id="share">
+    <iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fourbandiscalled.com%2F&amp;layout=button_count&amp;show_faces=true&amp;width=200&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowTransparency="true"></iframe>
+    <script src="http://platform.twitter.com/widgets.js" type="text/javascript" charset="utf-8"></script>
+    <div>
+      <a href="http://twitter.com/share?text=My band is <%= @band_name %> and we're about to release '<%= @album_name %>.'&amp;url=http://ourbandiscalled.com&amp;related=0to88:The guys who made this" class="twitter-share-button">tweet this</a>
+    </div>
+  </div>
 
-<ul>
-  <li><%= @record.wikipedia_url %></li>
-  <li><%= @record.quotationspage_url %></li>
-  <li><%= @record.flickr_url %></li>
-</ul>
+  <p>
+    This is an <a href="http://github.com/KevinBongart/ourbandiscalled" rel="me">open-source</a> implementation of <a href="http://dubiousquality.blogspot.com/2008/01/rock-band-99.html">Bill Harris' algorithm</a> for generating random band names.<br />
+    Here are the
+    <%= link_to "picture on Flickr", @record.flickr_url %>, the
+    <%= link_to "random Wikipedia page", @record.wikipedia_url %> and the
+    <%= link_to "random quote", @record.quotationspage_url %>.
+  </p>
+  <p>Refresh the page to generate a new band.</p>
+  <p>Made by <a href="http://0to88.com">0to88</a></p>
+</div>

@@ -1,0 +1,89 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+
+/* @override http://localhost:4567/css/hello.css */
+
+html
+  min-height: 650px
+  position: relative
+
+@font-face
+  font-family: Chunk
+  src: asset-url("Chunk.otf")
+
+body
+  background: #B9D7D9 image-url("texture.png")
+  width: 500px
+  text-align: center
+  font-family: Chunk, "Chunk", "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif
+  margin: 50px auto auto
+  text-shadow: #d8fafe 0 1px 1px
+  color: #2A2829
+
+#vinyl
+  width: 500px
+  background: image-url("vinyl.png") no-repeat 200px
+
+#cover
+  margin: auto
+  width: 240px
+  height: 240px
+  overflow: hidden
+  -moz-box-shadow: 1px 1px 5px #df0000
+  -webkit-box-shadow: 0px 1px 5px #000
+  box-shadow: 0 0 5px #000
+  background-color: #000
+
+img
+  height: 240px
+
+h1
+  font-size: 40px
+  margin-top: 10px
+
+#by
+  opacity: .5
+  font-size: 15px
+
+h2
+  color: #493736
+  font-size: 30px
+  margin-bottom: 10px
+
+#footer
+  font: 80% "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif
+  margin: auto
+  margin-top: 60px
+  margin-bottom: 20px
+  bottom: 10px
+
+a, a:visited
+  color: #668284
+  text-decoration: none
+
+#wtf
+  position: absolute
+  bottom: 70px
+  width: 500px
+
+#made-by
+  position: absolute
+  bottom: 20px
+  width: 500px
+
+#share
+  margin-bottom: 10px
+
+#share div
+  display: inline
