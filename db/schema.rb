@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140224225357) do
+ActiveRecord::Schema.define(version: 20140225134214) do
 
   create_table "records", force: true do |t|
     t.string   "band"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20140224225357) do
     t.string   "wikipedia_url"
     t.string   "quotationspage_url"
     t.string   "flickr_url"
+    t.integer  "views",              default: 0
   end
 
 end

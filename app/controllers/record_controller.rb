@@ -5,6 +5,7 @@ class RecordController < ApplicationController
 
   def show
     @record = Record.find_by_slug params[:slug]
+    @record.increment!(:views)
   end
 
   def short_url
