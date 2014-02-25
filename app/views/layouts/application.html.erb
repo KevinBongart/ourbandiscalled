@@ -11,8 +11,6 @@
   <%= tag :meta, property: "og:title", content: "Our band is called #{@record.band} and we just released #{@record.title}" %>
   <%= tag :meta, property: "og:description", content: "Our Band Is Called… is a Rock 'n' Roll band name generator. What's yours?" %>
   <%= tag :meta, property: "og:image", content: @record.cover %>
-  <%= tag :meta, property: "music:album", content: @record.title %>
-  <%= tag :meta, property: "music:musician", content: @record.band %>
 
   <%= tag :meta, name: "twitter:card", content: "summary_large_image" %>
   <%= tag :meta, name: "twitter:site", content: "@0to88" %>
