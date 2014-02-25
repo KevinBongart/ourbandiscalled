@@ -7,5 +7,13 @@ gem 'jbuilder', '~> 1.2'
 gem 'jquery-rails'
 gem 'nokogiri'
 gem 'sass-rails', '~> 4.0.0'
-gem 'sqlite3'
 gem 'uglifier', '>= 1.3.0'
+
+group :production do
+  gem 'pg'
+  gem 'rails_12factor'
+end
+
+group :development do
+  gem 'sqlite3'
+end
