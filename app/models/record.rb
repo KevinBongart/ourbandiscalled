@@ -18,6 +18,7 @@ class Record < ActiveRecord::Base
     title = json["query"]["random"].first["title"]
 
     band_name = title.gsub(/ \(.*\)$/, '')
+    band_name = band_name.titleize
 
     self.band = band_name
     self.wikipedia_url = "http://en.wikipedia.org/wiki/#{title.gsub(/ /, '_')}"
