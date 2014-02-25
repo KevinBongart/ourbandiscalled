@@ -1,4 +1,9 @@
-class RecordController < ApplicationController
+class RecordsController < ApplicationController
+  def index
+    @records = Record.order(views: :desc)
+    @record = @records.first
+  end
+
   def new
     redirect_to slug_path Record.create
   end

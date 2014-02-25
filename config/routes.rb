@@ -1,5 +1,6 @@
 Ourbandiscalled::Application.routes.draw do
-  get "/:id", to: "record#short_url", constraints: { id: /\d+/ }, as: :short_url
-  get "/:slug", to: "record#show", as: :slug
-  root "record#new"
+  resources :records, only: :index
+  get "/:id", to: "records#short_url", constraints: { id: /\d+/ }, as: :short_url
+  get "/:slug", to: "records#show", as: :slug
+  root "records#new"
 end
