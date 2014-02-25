@@ -3,10 +3,22 @@
 <head>
   <title>Our Band Is Called...</title>
   <meta name="viewport" content="width=500, user-scalable=yes">
+  <link rel="canonical" href="http://ourbandiscalled.com">
+
   <%= tag :meta, property: "og:url", content: slug_url(@record) %>
+  <%= tag :meta, property: "og:type", content: "music.album" %>
   <%= tag :meta, property: "og:title", content: "Our band is called #{@record.band} and we just released #{@record.title}" %>
   <%= tag :meta, property: "og:description", content: "Our Band Is Called… is a Rock 'n' Roll band name generator. What's yours?" %>
+  <%= tag :meta, property: "og:music:album", content: @record.title %>
+  <%= tag :meta, property: "og:music:musician", content: @record.band %>
   <%= tag :meta, property: "og:image", content: @record.cover %>
+
+  <%= tag :meta, name: "twitter:card", content: "summary_large_image" %>
+  <%= tag :meta, name: "twitter:site", content: "@0to88" %>
+  <%= tag :meta, name: "twitter:domain", content: "OurBandIsCalled.com" %>
+  <%= tag :meta, name: "twitter:title", content: @record.title %>
+  <%= tag :meta, name: "twitter:description", content: "by " + @record.band %>
+
   <%= stylesheet_link_tag "application", media: "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
