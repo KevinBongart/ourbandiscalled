@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Our Band Is Called...</title>
+  <meta name="viewport" content="width=500, user-scalable=yes">
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <%= render "layouts/facebook" %>
+  <%= yield %>
+</body>
+</html>
