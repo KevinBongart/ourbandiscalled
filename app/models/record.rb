@@ -41,7 +41,7 @@ class Record < ActiveRecord::Base
   end
 
   def set_album_cover
-    url = "http://www.flickr.com/explore/interesting/7days/"
+    url = "https://www.flickr.com/explore/interesting/7days/"
     body = Nokogiri::HTML(open(url))
     third_photo = body.css("span.photo_container.pc_m")[2].at("a")
 
