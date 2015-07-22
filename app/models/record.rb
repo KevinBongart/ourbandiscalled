@@ -13,7 +13,7 @@ class Record < ActiveRecord::Base
   private
 
   def set_band_name
-    url = "http://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&rnnamespace=0&format=json"
+    url = "https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&rnnamespace=0&format=json"
     json = JSON.parse open(url).read
     title = json["query"]["random"].first["title"]
 
