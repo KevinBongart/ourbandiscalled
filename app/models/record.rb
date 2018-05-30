@@ -25,7 +25,7 @@ class Record < ActiveRecord::Base
   end
 
   def set_album_name
-    url = "http://www.quotationspage.com/random.php3"
+    url = "http://www.quotationspage.com/random.php"
     body = Nokogiri::HTML(open(url))
     last_quote = body.search("dt[@class*=quote]").last.search("a").first
 
