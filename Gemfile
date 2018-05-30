@@ -8,15 +8,11 @@ gem 'jbuilder'
 gem 'jquery-rails'
 gem 'newrelic_rpm'
 gem 'nokogiri'
+gem 'pg'
+gem 'puma'
 gem 'sass-rails'
 gem 'uglifier'
 
 group :production do
-  gem 'pg'
   gem 'rails_12factor'
-end
-
-group :development do
-  gem 'thin'
-  gem 'sqlite3'
 end
