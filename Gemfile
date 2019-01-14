@@ -19,6 +19,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails'
+  gem 'rspec_junit_formatter'
 end
 
 group :test do

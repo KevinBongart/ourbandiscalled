@@ -128,6 +128,8 @@ GEM
       rspec-mocks (~> 3.8.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
+    rspec_junit_formatter (0.4.1)
+      rspec-core (>= 2, < 4, != 2.12.0)
     sass (3.7.3)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -169,6 +171,7 @@ DEPENDENCIES
   rails (~> 4.2)
   rails_12factor
   rspec-rails
+  rspec_junit_formatter
   sass-rails
   sqlite3
   uglifier
