@@ -6,7 +6,7 @@
 
   <%= tag :link, rel: "canonical", href: root_url %>
 
-  <%= tag :meta, property: "og:url", content: slug_url(@record) %>
+  <%= tag :meta, property: "og:url", content: record_path(@record) %>
   <%= tag :meta, property: "og:type", content: "music.album" %>
   <%= tag :meta, property: "og:title", content: "Our band is called #{@record.band} and we just released #{@record.title}" %>
   <%= tag :meta, property: "og:description", content: "Our Band Is Called… is a Rock 'n' Roll band name generator. What's yours?" %>
@@ -17,7 +17,7 @@
   <%= tag :meta, name: "twitter:domain", content: "OurBandIsCalled.com" %>
   <%= tag :meta, name: "twitter:title", content: @record.title %>
   <%= tag :meta, name: "twitter:description", content: "by " + @record.band %>
-  <%= tag :meta, name: "twitter:url", content: slug_url(@record) %>
+  <%= tag :meta, name: "twitter:url", content: record_path(@record) %>
 
   <%= stylesheet_link_tag "application", media: "all" %>
   <%= javascript_include_tag "application" %>
