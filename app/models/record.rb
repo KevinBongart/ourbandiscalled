@@ -41,15 +41,14 @@ class Record < ActiveRecord::Base
   end
 
   def set_album_cover
-    url = "https://www.flickr.com/explore/interesting/7days/"
+    url = "https://www.flickr.com/explore"
     body = Nokogiri::HTML(open(url))
-    third_photo = body.css("span.photo_container.pc_m")[2].at("a")
+    photo_urls = body.search('.photo-list-photo-view').map{ |n| n['style'][/url\((.+)\)/, 1] }
 
-    album_cover = third_photo.at("img")
-    album_cover = album_cover.attributes["src"].value
+    album_cover = "https:#{photo_urls.sample}"
 
     self.cover = album_cover
-    self.flickr_url = "http://www.flickr.com#{third_photo.attributes['href'].value}"
+    self.flickr_url = "http://flickr.com/photo.gne?id=#{album_cover.split('/')[4].split('_')[0]}"
   end
 
   def set_slug
