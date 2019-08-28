@@ -178,7 +178,7 @@ DEPENDENCIES
   jquery-rails
   newrelic_rpm
   nokogiri
-  pg
+  pg (~> 0.21)
   puma
   rails (~> 4.2)
   rails_12factor
