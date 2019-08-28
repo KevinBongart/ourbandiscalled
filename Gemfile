@@ -23,7 +23,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'sqlite3'
+  gem 'sqlite3', '~> 1.3.13'
   gem 'vcr'
   gem 'webmock'
 end

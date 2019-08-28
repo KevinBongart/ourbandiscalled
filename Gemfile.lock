@@ -182,7 +182,7 @@ DEPENDENCIES
   rspec-rails
   rspec_junit_formatter
   sass-rails
-  sqlite3
+  sqlite3 (~> 1.3.13)
   uglifier
   vcr
   webmock
