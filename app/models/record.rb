@@ -27,12 +27,15 @@ class Record < ActiveRecord::Base
   def set_album_name
     url = "http://www.quotationspage.com/random.php"
     body = Nokogiri::HTML(open(url))
-    last_quote = body.search("dt[@class*=quote]").last.search("a").first
 
+    last_quote = body.search("dt[@class*=quote]").last.search("a").first
     quote = last_quote.inner_html
+    quote.force_encoding(Encoding::UTF_8)
+
     last_words = quote.split(/ /)
     last_words = last_words.last(4)
     last_words.last.gsub!(/\./, '')
+
     album_name = last_words.join(" ")
     album_name = album_name.titleize
 
