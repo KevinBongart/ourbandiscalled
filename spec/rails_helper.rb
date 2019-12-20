@@ -10,8 +10,9 @@ require 'rspec/rails'
 require 'vcr'
 VCR.configure do |c|
     c.cassette_library_dir = 'spec/cassettes'
-    c.hook_into :webmock
     c.configure_rspec_metadata!
+    c.hook_into :webmock
+    c.ignore_hosts 'example.com'
 end
 
 # Requires supporting ruby files with custom matchers and macros, etc, in

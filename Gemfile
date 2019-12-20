@@ -1,21 +1,16 @@
 source 'https://rubygems.org'
-ruby "2.5.1"
 
-gem 'rails', '~> 4.2'
+gem 'rails'
 
 gem 'coffee-rails'
-gem 'jbuilder'
 gem 'jquery-rails'
+gem 'listen'
 gem 'newrelic_rpm'
 gem 'nokogiri'
-gem 'pg', '~> 1.1'
+gem 'pg'
 gem 'puma'
 gem 'sass-rails'
 gem 'uglifier'
-
-group :production do
-  gem 'rails_12factor'
-end
 
 group :development, :test do
   gem 'rspec-rails'
@@ -23,7 +18,6 @@ group :development, :test do
 end
 
 group :test do
-  gem 'sqlite3', '~> 1.3.13'
   gem 'vcr'
   gem 'webmock'
 end
