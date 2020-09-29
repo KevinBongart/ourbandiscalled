@@ -1,12 +1,11 @@
 version: 2.1
 orbs:
   ruby: circleci/ruby@1.1.1 # https://circleci.com/orbs/registry/orb/circleci/ruby
-  node: circleci/node@4.0.1 # https://circleci.com/orbs/registry/orb/circleci/node
 
 jobs:
   build:
     docker:
-      - image: circleci/ruby:latest-node
+      - image: circleci/ruby:latest
         environment:
           PGHOST: 127.0.0.1
           PGUSER: postgres
@@ -19,8 +18,6 @@ jobs:
     steps:
       - checkout
       - ruby/install-deps
-      - node/install-packages:
-          pkg-manager: yarn
       - run:
           name: Wait for DB
           command: 'dockerize -wait tcp://localhost:5432 -timeout 1m'
