@@ -14,7 +14,8 @@ class Record < ActiveRecord::Base
 
   def set_band_name
     url = "https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&rnnamespace=0&format=json"
-    json = JSON.parse open(url).read
+    response = Net::HTTP.get URI(url)
+    json = JSON.parse response
     title = json["query"]["random"].first["title"]
 
     band_name = title.gsub(/ \(.*\)$/, '')
@@ -26,7 +27,8 @@ class Record < ActiveRecord::Base
 
   def set_album_name
     url = "http://www.quotationspage.com/random.php"
-    body = Nokogiri::HTML(open(url))
+    response = Net::HTTP.get URI(url)
+    body = Nokogiri::HTML response
 
     last_quote = body.search("dt[@class*=quote]").last.search("a").first
     quote = last_quote.inner_html
@@ -45,7 +47,8 @@ class Record < ActiveRecord::Base
 
   def set_album_cover
     url = "https://www.flickr.com/explore"
-    body = Nokogiri::HTML(open(url))
+    response = Net::HTTP.get URI(url)
+    body = Nokogiri::HTML response
     photo_urls = body.search('.photo-list-photo-view').map{ |n| n['style'][/url\((.+)\)/, 1] }
 
     album_cover = "https:#{photo_urls.sample}"
