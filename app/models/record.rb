@@ -49,7 +49,7 @@ class Record < ActiveRecord::Base
     url = "https://www.flickr.com/explore"
     response = Net::HTTP.get URI(url)
     body = Nokogiri::HTML response
-    photo_urls = body.search('.photo-list-photo-view img').map { |n| n['src'] }
+    photo_urls = body.search('.photo-list-photo-view').map{ |n| n['style'][/url\((.+)\)/, 1] }
 
     album_cover = "https:#{photo_urls.sample}"
 
