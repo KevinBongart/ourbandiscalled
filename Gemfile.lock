@@ -105,7 +105,7 @@ GEM
     minitest (5.16.3)
     newrelic_rpm (8.14.0)
     nio4r (2.5.8)
-    nokogiri (1.13.10)
+    nokogiri (1.14.0)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     pg (1.4.5)
