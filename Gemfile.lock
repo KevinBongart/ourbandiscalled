@@ -177,7 +177,7 @@ GEM
     rspec-expectations (3.13.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.0)
+    rspec-mocks (3.13.2)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-rails (6.1.2)
@@ -254,7 +254,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 3.3.4p94
+   ruby 3.3.5p100
 
 BUNDLED WITH
    2.2.32
