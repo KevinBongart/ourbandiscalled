@@ -42,7 +42,7 @@ class Record < ActiveRecord::Base
     album_name = album_name.titleize
 
     self.title = album_name
-    self.quotationspage_url = "http://www.quotationspage.com/#{last_quote.attributes['href'].value}"
+    self.quotationspage_url = "https://www.quotationspage.com/#{last_quote.attributes['href'].value}"
   end
 
   def set_album_cover

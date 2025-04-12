@@ -15,7 +15,7 @@ RSpec.describe "root", :vcr do
     expect(record.wikipedia_url).to eq 'http://en.wikipedia.org/wiki/General_Stanton'
 
     expect(record.title).to eq 'Let Them Scare You'
-    expect(record.quotationspage_url).to eq 'http://www.quotationspage.com//quote/2559.html'
+    expect(record.quotationspage_url).to eq 'https://www.quotationspage.com//quote/2559.html'
 
     # Record#set_album_cover uses Array#sample, so this test includes
     # everything that's in the creates_a_new_album.yml VCR cassette.
