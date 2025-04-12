@@ -26,7 +26,7 @@ class Record < ActiveRecord::Base
   end
 
   def set_album_name
-    url = "http://www.quotationspage.com/random.php"
+    url = "https://www.quotationspage.com/random.php"
     response = Net::HTTP.get URI(url)
     body = Nokogiri::HTML response
 
