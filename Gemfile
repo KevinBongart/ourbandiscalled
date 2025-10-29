@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby File.read('.ruby-version').chomp
 
-gem 'rails', '~>7.2'
+gem 'rails', '~>8.1'
 
 gem 'coffee-rails'
 gem 'jquery-rails'
