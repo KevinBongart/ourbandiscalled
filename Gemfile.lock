@@ -150,7 +150,7 @@ GEM
     nokogiri (1.18.10)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    pg (1.5.9)
+    pg (1.6.2)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
