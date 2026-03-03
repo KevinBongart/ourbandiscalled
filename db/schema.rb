@@ -10,22 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_20_093602) do
-
+ActiveRecord::Schema[8.1].define(version: 2019_12_20_093602) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "records", id: :serial, force: :cascade do |t|
     t.string "band"
-    t.string "title"
     t.string "cover"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string "slug"
-    t.string "wikipedia_url"
-    t.string "quotationspage_url"
+    t.datetime "created_at", precision: nil
     t.string "flickr_url"
+    t.string "quotationspage_url"
+    t.string "slug"
+    t.string "title"
+    t.datetime "updated_at", precision: nil
     t.integer "views", default: 0
+    t.string "wikipedia_url"
   end
-
 end
