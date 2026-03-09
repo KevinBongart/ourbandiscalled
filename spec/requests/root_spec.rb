@@ -19,7 +19,7 @@ RSpec.describe "root", :vcr do
 
     # Record#set_album_cover uses Array#sample, so this test includes
     # everything that's in the creates_a_new_album.yml VCR cassette.
-    expect(record.cover).to be_in %w(
+    expect(record.cover).to be_in %w[
       https://live.staticflickr.com/65535/52878248290_e0a6fe735d.jpg
       https://live.staticflickr.com/65535/52876917062_0047267662_n.jpg
       https://live.staticflickr.com/65535/52880477935_96c49d3a2c_w.jpg
@@ -69,7 +69,7 @@ RSpec.describe "root", :vcr do
       https://live.staticflickr.com/65535/52876154683_1273a6bfc4_w.jpg
       https://live.staticflickr.com/65535/52878034280_366b45ca51_w.jpg
       https://live.staticflickr.com/65535/52879166617_9175ab0055_w.jpg
-    )
+    ]
 
     expect(record.flickr_url).to match /http\:\/\/flickr\.com\/photo\.gne\?id=\d+/
 

@@ -32,7 +32,7 @@ class Record < ActiveRecord::Base
     json = JSON.parse response
     title = json["query"]["random"].first["title"]
 
-    band_name = title.gsub(/ \(.*\)$/, '')
+    band_name = title.gsub(/ \(.*\)$/, "")
     band_name = band_name.titleize
 
     self.band = band_name
@@ -50,7 +50,7 @@ class Record < ActiveRecord::Base
 
     last_words = quote.split(/ /)
     last_words = last_words.last(4)
-    last_words.last.gsub!(/\./, '')
+    last_words.last.gsub!(/\./, "")
 
     album_name = last_words.join(" ")
     album_name = album_name.titleize
@@ -60,10 +60,10 @@ class Record < ActiveRecord::Base
   end
 
   def set_album_cover
-    photo_urls = Rails.cache.fetch('flickr_photos', expires_in: 5.minutes) do
-      response = Net::HTTP.get URI('https://www.flickr.com/explore')
+    photo_urls = Rails.cache.fetch("flickr_photos", expires_in: 5.minutes) do
+      response = Net::HTTP.get URI("https://www.flickr.com/explore")
       body = Nokogiri::HTML response
-      body.search('.photo-list-photo-container img').map { |img| img['src'] }
+      body.search(".photo-list-photo-container img").map { |img| img["src"] }
     end
 
     album_cover = "https:#{photo_urls.sample}"
