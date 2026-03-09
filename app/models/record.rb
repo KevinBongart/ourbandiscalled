@@ -1,16 +1,30 @@
 class Record < ActiveRecord::Base
-  require 'open-uri'
+  attr_accessor :timings
 
-  before_create :set_band_name
-  before_create :set_album_name
-  before_create :set_album_cover
-  before_create :set_slug
+  before_create :generate_content
 
   def to_param
     slug
   end
 
   private
+
+  def generate_content
+    @timings = {}
+    threads = [
+      Thread.new { timed(:band_name) { set_band_name } },
+      Thread.new { timed(:album_name) { set_album_name } },
+      Thread.new { timed(:album_cover) { set_album_cover } }
+    ]
+    threads.each(&:join)
+    set_slug
+  end
+
+  def timed(label)
+    start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    yield
+    @timings[label] = Process.clock_gettime(Process::CLOCK_MONOTONIC) - start
+  end
 
   def set_band_name
     url = "https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&rnnamespace=0&format=json"
@@ -46,10 +60,11 @@ class Record < ActiveRecord::Base
   end
 
   def set_album_cover
-    url = "https://www.flickr.com/explore"
-    response = Net::HTTP.get URI(url)
-    body = Nokogiri::HTML response
-    photo_urls = body.search('.photo-list-photo-container img').map { |img| img['src'] }
+    photo_urls = Rails.cache.fetch('flickr_photos', expires_in: 5.minutes) do
+      response = Net::HTTP.get URI('https://www.flickr.com/explore')
+      body = Nokogiri::HTML response
+      body.search('.photo-list-photo-container img').map { |img| img['src'] }
+    end
 
     album_cover = "https:#{photo_urls.sample}"
 
