@@ -35,10 +35,12 @@ RSpec.describe Record do
     end
 
     it "only fetches Flickr once when creating two records" do
-      allow(Net::HTTP).to receive(:get).and_call_original
-      expect(Net::HTTP).to receive(:get).with(URI("https://www.flickr.com/explore")).once.and_call_original
+      stub_request(:get, /en\.wikipedia\.org/)
+        .to_return(body: WIKIPEDIA_RESPONSE, status: 200)
+        .then.to_return(body: '{"batchcomplete":"","query":{"random":[{"id":2,"ns":0,"title":"Other Band"}]}}', status: 200)
       Record.create
       Record.create
+      expect(WebMock).to have_requested(:get, "https://www.flickr.com/explore").once
     end
   end
 end

@@ -7,7 +7,7 @@ require "action_controller/railtie"
 require "action_view/railtie"
 require "active_model/railtie"
 require "active_record/railtie"
-require "sprockets/railtie"
+# Propshaft is loaded via Bundler.require below
 
 # require "action_cable/engine"
 # require "action_mailer/railtie"

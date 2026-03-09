@@ -33,8 +33,8 @@ class Record < ActiveRecord::Base
   end
 
   def set_band_name
-    url = "https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&rnnamespace=0&format=json"
-    response = Net::HTTP.get URI(url)
+    uri = URI("https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&rnnamespace=0&format=json")
+    response = Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 5, read_timeout: 5) { |http| http.get(uri.request_uri) }.body
     json = JSON.parse response
     page = json["query"]["random"].first
 
@@ -53,7 +53,8 @@ class Record < ActiveRecord::Base
   def set_album_cover
     Rails.logger.info("[Flickr] cache: #{Rails.cache.exist?(FLICKR_CACHE_KEY) ? "hit" : "miss"}")
     photo_urls = Rails.cache.fetch(FLICKR_CACHE_KEY, expires_in: 3.minutes) do
-      response = Net::HTTP.get URI("https://www.flickr.com/explore")
+      uri = URI("https://www.flickr.com/explore")
+      response = Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 5, read_timeout: 5) { |http| http.get(uri.request_uri) }.body
       body = Nokogiri::HTML response
       body.search(".photo-list-photo-container img").map { |img| img["src"] }
     end
