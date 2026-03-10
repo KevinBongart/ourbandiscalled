@@ -312,7 +312,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  byebug
   listen
   newrelic_rpm
   nokogiri

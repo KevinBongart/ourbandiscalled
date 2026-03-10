@@ -1,7 +1,8 @@
 class Record < ActiveRecord::Base
-  FLICKR_CACHE_KEY = "flickr_photos"
+  include HttpFetchable
+  include Timed
 
-  attr_accessor :timings
+  FLICKR_CACHE_KEY = "flickr_photos"
 
   before_create :generate_content
 
@@ -12,8 +13,6 @@ class Record < ActiveRecord::Base
   private
 
   def generate_content
-    @timings = {}
-
     threads = [
       Thread.new { timed("Wikipedia") { set_band_name } },
       Thread.new { timed("Quote") { set_album_name } },
@@ -24,17 +23,8 @@ class Record < ActiveRecord::Base
     set_slug
   end
 
-  def timed(label)
-    start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-    yield
-    elapsed = Process.clock_gettime(Process::CLOCK_MONOTONIC) - start
-    @timings[label] = elapsed
-    Rails.logger.info("[#{label}] #{(elapsed * 1000).round}ms")
-  end
-
   def set_band_name
-    uri = URI("https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&rnnamespace=0&format=json")
-    response = Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 5, read_timeout: 5) { |http| http.get(uri.request_uri) }.body
+    response = http_get("https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&rnnamespace=0&format=json")
     json = JSON.parse response
     page = json["query"]["random"].first
 
@@ -53,9 +43,7 @@ class Record < ActiveRecord::Base
   def set_album_cover
     Rails.logger.info("[Flickr] cache: #{Rails.cache.exist?(FLICKR_CACHE_KEY) ? "hit" : "miss"}")
     photo_urls = Rails.cache.fetch(FLICKR_CACHE_KEY, expires_in: 3.minutes) do
-      uri = URI("https://www.flickr.com/explore")
-      response = Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 5, read_timeout: 5) { |http| http.get(uri.request_uri) }.body
-      body = Nokogiri::HTML response
+      body = Nokogiri::HTML http_get("https://www.flickr.com/explore")
       body.search(".photo-list-photo-container img").map { |img| img["src"] }
     end
 

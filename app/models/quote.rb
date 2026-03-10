@@ -34,9 +34,7 @@ class Quote < ActiveRecord::Base
   end
 
   private_class_method def self.scrape_quotes
-    uri = URI("https://www.quotationspage.com/random.php")
-    response = Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 5, read_timeout: 5) { |http| http.get(uri.request_uri) }.body
-    doc = Nokogiri::HTML(response)
+    doc = Nokogiri::HTML(HttpFetchable.http_get("https://www.quotationspage.com/random.php"))
 
     doc.css("dt.quote").map do |dt|
       link = dt.css("a").first

@@ -3,7 +3,6 @@ ruby File.read(".ruby-version").chomp
 
 gem "rails", "~>8.1"
 
-gem "listen"
 gem "newrelic_rpm"
 gem "nokogiri"
 gem "pg"
@@ -11,7 +10,6 @@ gem "propshaft"
 gem "puma"
 
 group :development, :test do
-  gem "byebug", platforms: [:mri, :mingw, :x64_mingw]
   gem "pry-byebug"
   gem "pry-rails"
   gem "rspec-rails"
@@ -19,6 +17,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "listen"
   gem "rubocop-rails-omakase", require: false
   gem "web-console"
 end
