@@ -48,37 +48,6 @@ RSpec.describe Quote do
     end
   end
 
-  describe ".fetch_more_random_quotes" do
-    before do
-      stub_request(:get, "https://www.quotationspage.com/random.php")
-        .to_return(body: quotations_page_html, status: 200)
-    end
-
-    it "inserts quotes parsed from the page" do
-      expect { Quote.fetch_more_random_quotes }.to change(Quote, :count).by(3)
-
-      quote = Quote.find_by(source_id: 100)
-      expect(quote.body).to eq("First quote text.")
-      expect(quote.author).to eq("Author One")
-      expect(quote.url).to eq("https://www.quotationspage.com/quote/100.html")
-      expect(quote.used_at).to be_nil
-    end
-
-    it "skips quotes already in the database (deduplicates by source_id)" do
-      Quote.create!(body: "Old text", author: "Author One", source_id: 100, url: "https://www.quotationspage.com/quote/100.html")
-      expect { Quote.fetch_more_random_quotes }.to change(Quote, :count).by(2)
-    end
-
-    it "resets used_at to nil on all quotes when no new quotes are added" do
-      Quote.create!(body: "First quote text.", author: "Author One", source_id: 100, url: "https://www.quotationspage.com/quote/100.html", used_at: 1.hour.ago)
-      Quote.create!(body: "Second quote text here.", author: "Author Two", source_id: 200, url: "https://www.quotationspage.com/quote/200.html", used_at: 2.hours.ago)
-      Quote.create!(body: "Third and final text.", author: "Author Three", source_id: 300, url: "https://www.quotationspage.com/quote/300.html", used_at: 3.hours.ago)
-
-      expect { Quote.fetch_more_random_quotes }.not_to change(Quote, :count)
-      expect(Quote.where(used_at: nil).count).to eq(3)
-    end
-  end
-
   describe ".next!" do
     def create_quotes(count, used: false)
       count.times do |i|
@@ -104,8 +73,8 @@ RSpec.describe Quote do
         expect(quote.reload.used_at).to be_present
       end
 
-      it "does not call fetch_more_random_quotes" do
-        expect(Quote).not_to receive(:fetch_more_random_quotes)
+      it "does not fetch more quotes" do
+        expect(FetchQuotes).not_to receive(:call)
         Quote.next!
       end
     end
@@ -117,8 +86,8 @@ RSpec.describe Quote do
           .to_return(body: quotations_page_html, status: 200)
       end
 
-      it "calls fetch_more_random_quotes" do
-        expect(Quote).to receive(:fetch_more_random_quotes).and_call_original
+      it "fetches more quotes" do
+        expect(FetchQuotes).to receive(:call).and_call_original
         Quote.next!
       end
 
@@ -138,6 +107,52 @@ RSpec.describe Quote do
       it "raises when no quotes can be found or fetched" do
         expect { Quote.next! }.to raise_error(RuntimeError, "Quote pool is empty and could not fetch more quotes")
       end
+    end
+  end
+end
+
+RSpec.describe FetchQuotes do
+  let(:quotations_page_html) do
+    <<~HTML
+      <html><body><dl>
+        <dt class="quote"><a href="/quote/100.html">First quote text.</a></dt>
+        <dd class="author"><div class="icons"></div><b><a href="/quotes/Author_One/">Author One</a></b></dd>
+        <dt class="quote"><a href="/quote/200.html">Second quote text here.</a></dt>
+        <dd class="author"><div class="icons"></div><b><a href="/quotes/Author_Two/">Author Two</a> (1900 - 1980)</b></dd>
+        <dt class="quote"><a href="/quote/300.html">Third and final text.</a></dt>
+        <dd class="author"><div class="icons"></div><b><a href="/quotes/Author_Three/">Author Three</a></b></dd>
+      </dl></body></html>
+    HTML
+  end
+
+  before do
+    stub_request(:get, "https://www.quotationspage.com/random.php")
+      .to_return(body: quotations_page_html, status: 200)
+  end
+
+  describe ".call" do
+    it "inserts quotes parsed from the page" do
+      expect { FetchQuotes.call }.to change(Quote, :count).by(3)
+
+      quote = Quote.find_by(source_id: 100)
+      expect(quote.body).to eq("First quote text.")
+      expect(quote.author).to eq("Author One")
+      expect(quote.url).to eq("https://www.quotationspage.com/quote/100.html")
+      expect(quote.used_at).to be_nil
+    end
+
+    it "skips quotes already in the database (deduplicates by source_id)" do
+      Quote.create!(body: "Old text", author: "Author One", source_id: 100, url: "https://www.quotationspage.com/quote/100.html")
+      expect { FetchQuotes.call }.to change(Quote, :count).by(2)
+    end
+
+    it "resets used_at to nil on all quotes when no new quotes are added" do
+      Quote.create!(body: "First quote text.", author: "Author One", source_id: 100, url: "https://www.quotationspage.com/quote/100.html", used_at: 1.hour.ago)
+      Quote.create!(body: "Second quote text here.", author: "Author Two", source_id: 200, url: "https://www.quotationspage.com/quote/200.html", used_at: 2.hours.ago)
+      Quote.create!(body: "Third and final text.", author: "Author Three", source_id: 300, url: "https://www.quotationspage.com/quote/300.html", used_at: 3.hours.ago)
+
+      expect { FetchQuotes.call }.not_to change(Quote, :count)
+      expect(Quote.where(used_at: nil).count).to eq(3)
     end
   end
 end
