@@ -1,10 +1,10 @@
 class Record < ActiveRecord::Base
-  require 'open-uri'
+  include HttpFetchable
+  include Timed
 
-  before_create :set_band_name
-  before_create :set_album_name
-  before_create :set_album_cover
-  before_create :set_slug
+  FLICKR_CACHE_KEY = "flickr_photos"
+
+  before_create :generate_content
 
   def to_param
     slug
@@ -12,44 +12,40 @@ class Record < ActiveRecord::Base
 
   private
 
+  def generate_content
+    threads = [
+      Thread.new { timed("Wikipedia") { set_band_name } },
+      Thread.new { timed("Quote") { set_album_name } },
+      Thread.new { timed("Flickr") { set_album_cover } }
+    ]
+    threads.each(&:join)
+
+    set_slug
+  end
+
   def set_band_name
-    url = "https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&rnnamespace=0&format=json"
-    response = Net::HTTP.get URI(url)
+    response = http_get("https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&rnnamespace=0&format=json")
     json = JSON.parse response
-    title = json["query"]["random"].first["title"]
+    page = json["query"]["random"].first
 
-    band_name = title.gsub(/ \(.*\)$/, '')
-    band_name = band_name.titleize
-
-    self.band = band_name
-    self.wikipedia_url = "http://en.wikipedia.org/wiki/#{title.gsub(/ /, '_')}"
+    self.band = page["title"].gsub(/ \(.*\)$/, "").titleize
+    self.wikipedia_url = "https://en.wikipedia.org/wiki/?curid=#{page["id"]}"
   end
 
   def set_album_name
-    url = "https://www.quotationspage.com/random.php"
-    response = Net::HTTP.get URI(url)
-    body = Nokogiri::HTML response
-
-    last_quote = body.search("dt[@class*=quote]").last.search("a").first
-    quote = last_quote.inner_html
-    quote.force_encoding(Encoding::UTF_8)
-
-    last_words = quote.split(/ /)
-    last_words = last_words.last(4)
-    last_words.last.gsub!(/\./, '')
-
-    album_name = last_words.join(" ")
-    album_name = album_name.titleize
-
-    self.title = album_name
-    self.quotationspage_url = "https://www.quotationspage.com/#{last_quote.attributes['href'].value}"
+    quote = Quote.next!
+    last_words = quote.body.split(" ").last(4)
+    last_words.last.gsub!(/\./, "")
+    self.title = last_words.join(" ").titleize
+    self.quotationspage_url = quote.url
   end
 
   def set_album_cover
-    url = "https://www.flickr.com/explore"
-    response = Net::HTTP.get URI(url)
-    body = Nokogiri::HTML response
-    photo_urls = body.search('.photo-list-photo-container img').map { |img| img['src'] }
+    Rails.logger.info("[Flickr] cache: #{Rails.cache.exist?(FLICKR_CACHE_KEY) ? "hit" : "miss"}")
+    photo_urls = Rails.cache.fetch(FLICKR_CACHE_KEY, expires_in: 3.minutes) do
+      body = Nokogiri::HTML http_get("https://www.flickr.com/explore")
+      body.search(".photo-list-photo-container img").map { |img| img["src"] }
+    end
 
     album_cover = "https:#{photo_urls.sample}"
 

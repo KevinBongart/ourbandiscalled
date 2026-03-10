@@ -7,6 +7,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
+require "webmock/rspec"
 require 'vcr'
 VCR.configure do |c|
     c.cassette_library_dir = 'spec/cassettes'
@@ -39,8 +40,22 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
+  config.before(:suite) do
+    ActiveRecord::Base.connection.execute(<<~SQL)
+      SELECT pg_terminate_backend(pid)
+      FROM pg_stat_activity
+      WHERE datname = current_database()
+        AND state = 'idle in transaction'
+        AND pid <> pg_backend_pid()
+    SQL
+  end
+
+  config.before(:each) do
+    Rails.cache.clear
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_paths = ["#{::Rails.root}/spec/fixtures"]
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

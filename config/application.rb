@@ -1,4 +1,4 @@
-require_relative 'boot'
+require_relative "boot"
 
 # require "rails"
 
@@ -7,7 +7,7 @@ require "action_controller/railtie"
 require "action_view/railtie"
 require "active_model/railtie"
 require "active_record/railtie"
-require "sprockets/railtie"
+# Propshaft is loaded via Bundler.require below
 
 # require "action_cable/engine"
 # require "action_mailer/railtie"
@@ -22,7 +22,7 @@ Bundler.require(*Rails.groups)
 module Ourbandiscalled
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.0
+    config.load_defaults 8.1
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

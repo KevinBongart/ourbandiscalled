@@ -1,6 +1,6 @@
 class RecordsController < ApplicationController
   def new
-    redirect_to(Record.create)
+    redirect_to Record.create!
   end
 
   def show

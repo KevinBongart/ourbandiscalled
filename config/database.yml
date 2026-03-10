@@ -9,6 +9,9 @@ development:
 test:
   <<: *default
   database: ourbandiscalled_test
+  variables:
+    lock_timeout: 5000
+    statement_timeout: 5000
 
 production:
   <<: *default

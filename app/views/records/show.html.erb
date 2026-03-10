@@ -16,21 +16,14 @@
 <a href="/">Generate a new band</a>
 
 <div id="footer">
-  <div id="share">
-    <%= render "twitter_button" %>
-  </div>
-
   <p>
     This is an
     <a href="http://github.com/KevinBongart/ourbandiscalled" rel="me">open-source</a>
     implementation of
     <a href="http://dubiousquality.blogspot.com/2008/01/rock-band-99.html">Bill Harris' algorithm</a>
-    for generating random band names.<br />
-    Here are the
+    for generating random band names. Here are the
     <%= link_to "picture on Flickr", @record.flickr_url %>, the
     <%= link_to "random Wikipedia page", @record.wikipedia_url %> and the
     <%= link_to "random quote", @record.quotationspage_url %>.
   </p>
-  <p>Click the album cover to generate a new record.</p>
-  <p>Made by <a href="http://0to88.com">0to88</a></p>
 </div>

@@ -1,7 +1,7 @@
 namespace :db do
-  desc "Deletes old 'Record' records when the table gets close to the Heroku limit"
+  desc "Deletes oldest records beyond the 9000 row limit"
   task trim: :environment do
-    limit = 9000 # Heroku free db limit is 10000, this adds some padding
+    limit = 9000
 
     number_of_records_to_delete = Record.count - limit
     if number_of_records_to_delete > 0
