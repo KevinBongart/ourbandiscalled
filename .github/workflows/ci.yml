@@ -25,7 +25,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      - run: bin/rails db:schema:load
+      - run: bin/rails db:create db:schema:load
       - run: bin/rails spec
 
   lint:
