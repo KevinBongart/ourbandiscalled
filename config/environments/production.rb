@@ -9,7 +9,7 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
   config.log_level = :debug
-  config.log_tags  = [:request_id]
+  config.log_tags  = [ :request_id ]
 
   config.log_formatter = ::Logger::Formatter.new
 
