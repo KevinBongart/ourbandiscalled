@@ -1,7 +1,14 @@
 source "https://rubygems.org"
 ruby File.read(".ruby-version").chomp
 
-gem "rails", "~>8.1"
+# Only the Rails frameworks this app actually loads (see config/application.rb).
+# Action Cable, Action Mailer, Action Mailbox, Action Text, Active Job and
+# Active Storage are deliberately omitted.
+gem "actionpack", "~> 8.1"
+gem "actionview", "~> 8.1"
+gem "activemodel", "~> 8.1"
+gem "activerecord", "~> 8.1"
+gem "railties", "~> 8.1"
 
 gem "newrelic_rpm"
 gem "nokogiri"

@@ -9,11 +9,10 @@ require "active_model/railtie"
 require "active_record/railtie"
 # Propshaft is loaded via Bundler.require below
 
-# require "action_cable/engine"
-# require "action_mailer/railtie"
-# require "active_job/railtie"
-# require "active_storage/engine"
-# require "rails/test_unit/railtie"
+# Action Cable, Action Mailer, Active Job, Active Storage and the test_unit
+# railtie are intentionally not loaded. Their gems are no longer installed
+# either -- the Gemfile lists the individual frameworks instead of the "rails"
+# meta-gem -- so re-enabling one means adding its gem back first.
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
