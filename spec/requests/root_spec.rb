@@ -1,14 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "root", :vcr do
-  before do
-    allow(Quote).to receive(:next!).and_return(
-      double(
-        body: "Sample quote with enough words here.",
-        url: "https://www.quotationspage.com/quote/42.html"
-      )
-    )
-  end
+  before { stub_next_quote }
 
   subject { get("/") }
 

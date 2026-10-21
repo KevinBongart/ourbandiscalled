@@ -1,13 +1,6 @@
 require "rails_helper"
 
 RSpec.describe RandomWikipediaPage do
-  def stub_wikipedia(id:, title:)
-    stub_request(:get, /en\.wikipedia\.org/).to_return(
-      status: 200,
-      body: { query: { random: [ { id: id, ns: 0, title: title } ] } }.to_json
-    )
-  end
-
   describe ".call" do
     it "returns a page built from the API response" do
       stub_wikipedia(id: 42, title: "Test Band")
