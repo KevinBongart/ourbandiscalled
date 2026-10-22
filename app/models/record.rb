@@ -1,8 +1,5 @@
 class Record < ActiveRecord::Base
-  include HttpFetchable
   include Timed
-
-  FLICKR_CACHE_KEY = "flickr_photos"
 
   before_create :generate_content
 
@@ -24,33 +21,24 @@ class Record < ActiveRecord::Base
   end
 
   def set_band_name
-    response = http_get("https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&rnnamespace=0&format=json")
-    json = JSON.parse response
-    page = json["query"]["random"].first
+    page = RandomWikipediaPage.call
 
-    self.band = page["title"].gsub(/ \(.*\)$/, "").titleize
-    self.wikipedia_url = "https://en.wikipedia.org/wiki/?curid=#{page["id"]}"
+    self.band = page.band_name
+    self.wikipedia_url = page.url
   end
 
   def set_album_name
-    quote = Quote.next!
-    last_words = quote.body.split(" ").last(4)
-    last_words.last.gsub!(/\./, "")
-    self.title = last_words.join(" ").titleize
-    self.quotationspage_url = quote.url
+    quotation = RandomQuote.call
+
+    self.title = quotation.album_title
+    self.quotationspage_url = quotation.url
   end
 
   def set_album_cover
-    Rails.logger.info("[Flickr] cache: #{Rails.cache.exist?(FLICKR_CACHE_KEY) ? "hit" : "miss"}")
-    photo_urls = Rails.cache.fetch(FLICKR_CACHE_KEY, expires_in: 3.minutes) do
-      body = Nokogiri::HTML http_get("https://www.flickr.com/explore")
-      body.search(".photo-list-photo-container img").map { |img| img["src"] }
-    end
+    photo = RandomFlickrPhoto.call
 
-    album_cover = "https:#{photo_urls.sample}"
-
-    self.cover = album_cover
-    self.flickr_url = "http://flickr.com/photo.gne?id=#{album_cover.split('/')[4].split('_')[0]}"
+    self.cover = photo.image_url
+    self.flickr_url = photo.page_url
   end
 
   def set_slug
