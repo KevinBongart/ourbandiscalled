@@ -10,18 +10,15 @@ module ExternalServiceStubs
     { id: 300, text: "Third and final text.", author: "Author Three", lifespan: "" }
   ].freeze
 
-  # Pass `pages:` to hand back a different article on each successive call --
-  # records derive their slug from the band name, so two records created in one
-  # example need two distinct titles.
+  # One request returns the whole batch, so `pages:` is the batch the service
+  # will hand out one at a time.
   def stub_wikipedia(id: 1, title: "Test Band", pages: [ { id: id, title: title } ])
-    responses = pages.map do |page|
-      {
-        status: 200,
-        body: { batchcomplete: "", query: { random: [ { id: page[:id], ns: 0, title: page[:title] } ] } }.to_json
-      }
-    end
+    articles = pages.map { |page| { id: page[:id], ns: 0, title: page[:title] } }
 
-    stub_request(:get, RandomWikipediaPage::API_URL).to_return(*responses)
+    stub_request(:get, RandomWikipediaPage::API_URL).to_return(
+      status: 200,
+      body: { batchcomplete: "", query: { random: articles } }.to_json
+    )
   end
 
   def stub_flickr(photo_paths: [ DEFAULT_PHOTO_PATH ])

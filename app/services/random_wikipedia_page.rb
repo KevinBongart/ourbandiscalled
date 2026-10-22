@@ -1,10 +1,23 @@
-# Fetches a random article from the Wikipedia API and exposes the pieces of it
+# Fetches random articles from the Wikipedia API and exposes the pieces of one
 # a Record needs: a cleaned-up band name and a permalink.
+#
+# Articles are fetched BATCH_SIZE at a time and handed out one per record. The
+# API costs the same for 20 articles as for 1, and Wikimedia rate-limits hard
+# -- a burst of single-article requests earns a 429 with "retry-after: 35".
 class RandomWikipediaPage
   include Callable
   include HttpFetchable
 
-  API_URL = "https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&rnnamespace=0&format=json"
+  class UnexpectedResponse < StandardError; end
+
+  BATCH_SIZE = 20
+  CACHE_KEY = "wikipedia_pages"
+  CACHE_TTL = 1.hour
+  API_URL = "https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=#{BATCH_SIZE}&rnnamespace=0&format=json"
+
+  # Records are built concurrently, so guard the read-shift-write against two
+  # threads handing out the same article or both refilling at once.
+  POOL_LOCK = Mutex.new
 
   Page = Data.define(:id, :title) do
     # Wikipedia disambiguates articles with a trailing parenthetical, e.g.
@@ -19,8 +32,34 @@ class RandomWikipediaPage
   end
 
   def call
-    article = JSON.parse(http_get(API_URL))["query"]["random"].first
+    Page.new(**next_article)
+  end
 
-    Page.new(id: article["id"], title: article["title"])
+  private
+
+  def next_article
+    POOL_LOCK.synchronize do
+      pending = Rails.cache.read(CACHE_KEY).presence || fetch_batch
+      article = pending.shift
+      Rails.cache.write(CACHE_KEY, pending, expires_in: CACHE_TTL)
+
+      article
+    end
+  end
+
+  def fetch_batch
+    Rails.logger.info("[Wikipedia] pool miss -- fetching #{BATCH_SIZE} articles")
+
+    parse(http_get(API_URL))["query"]["random"].map do |article|
+      { id: article["id"], title: article["title"] }
+    end
+  end
+
+  # Wikipedia can answer 200 with an HTML interstitial. Say so plainly rather
+  # than surfacing "unexpected character: '<!DOCTYPE'" from deep in the parser.
+  def parse(body)
+    JSON.parse(body)
+  rescue JSON::ParserError
+    raise UnexpectedResponse, "Wikipedia returned a non-JSON response: #{body.to_s.truncate(200).inspect}"
   end
 end
