@@ -15,10 +15,6 @@ class RandomWikipediaPage
   CACHE_TTL = 1.hour
   API_URL = "https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=#{BATCH_SIZE}&rnnamespace=0&format=json"
 
-  # Records are built concurrently, so guard the read-shift-write against two
-  # threads handing out the same article or both refilling at once.
-  POOL_LOCK = Mutex.new
-
   Page = Data.define(:id, :title) do
     # Wikipedia disambiguates articles with a trailing parenthetical, e.g.
     # "Mercury (element)". Bands rarely do.
@@ -32,19 +28,24 @@ class RandomWikipediaPage
   end
 
   def call
-    Page.new(**next_article)
+    article = next_article
+
+    Page.new(id: article[:id], title: article[:title])
   end
 
   private
 
+  # Deliberately unsynchronised. Two concurrent builds can at worst hand out
+  # the same article or both refill, costing a repeated band name or one spare
+  # API call. A lock would have to be held across the fetch below, serialising
+  # every concurrent record behind one HTTP call, and would not help across
+  # processes anyway.
   def next_article
-    POOL_LOCK.synchronize do
-      pending = Rails.cache.read(CACHE_KEY).presence || fetch_batch
-      article = pending.shift
-      Rails.cache.write(CACHE_KEY, pending, expires_in: CACHE_TTL)
+    pending = Rails.cache.read(CACHE_KEY).presence || fetch_batch
+    article = pending.shift
+    Rails.cache.write(CACHE_KEY, pending, expires_in: CACHE_TTL)
 
-      article
-    end
+    article
   end
 
   def fetch_batch
