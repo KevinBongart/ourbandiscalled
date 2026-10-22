@@ -24,7 +24,7 @@ RSpec.describe RandomWikipediaPage do
     it "surfaces an upstream error status rather than parsing the error page" do
       stub_request(:get, RandomWikipediaPage::API_URL).to_return(status: 503, body: "<!DOCTYPE html>")
 
-      expect { described_class.call }.to raise_error(HttpFetchable::ResponseError, /returned 503/)
+      expect { described_class.call }.to raise_error(Faraday::ServerError)
     end
 
     it "requests random articles from the main namespace" do

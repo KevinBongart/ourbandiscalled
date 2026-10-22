@@ -70,6 +70,14 @@ GEM
     dumb_delegator (1.1.0)
     erb (6.0.7)
     erubi (1.13.1)
+    faraday (2.15.0)
+      faraday-net_http (>= 2.0, < 3.6)
+      json
+      logger
+    faraday-follow_redirects (0.5.0)
+      faraday (>= 1, < 3)
+    faraday-net_http (3.5.0)
+      net-http (~> 0.5)
     ffi (1.17.4)
     hashdiff (1.2.1)
     i18n (1.15.2)
@@ -98,6 +106,11 @@ GEM
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
+    net-http (0.10.0)
+      net-protocol (>= 0.3.0)
+      uri (>= 0.11.1)
+    net-protocol (0.4.0)
+      timeout
     newrelic_rpm (10.9.1)
       logger
     nio4r (2.7.5)
@@ -261,6 +274,8 @@ DEPENDENCIES
   activerecord (~> 8.1)
   axe-core-rspec
   capybara
+  faraday
+  faraday-follow_redirects
   listen
   newrelic_rpm
   nokogiri
