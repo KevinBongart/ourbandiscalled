@@ -30,7 +30,9 @@ group :development do
 end
 
 group :test do
+  gem "axe-core-rspec"
   gem "capybara"
+  gem "selenium-webdriver"
   gem "vcr"
   gem "webmock"
 end

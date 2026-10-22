@@ -14,6 +14,8 @@ VCR.configure do |c|
     c.configure_rspec_metadata!
     c.hook_into :webmock
     c.ignore_hosts 'example.com'
+    # Capybara's server and chromedriver talk over loopback.
+    c.ignore_localhost = true
 end
 
 # Requires supporting ruby files with custom matchers and macros, etc, in

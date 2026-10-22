@@ -39,6 +39,10 @@ GEM
     addressable (2.9.0)
       public_suffix (>= 2.0.2, < 8.0)
     ast (2.4.3)
+    axe-core-api (4.14.0)
+      dumb_delegator
+    axe-core-rspec (4.14.0)
+      axe-core-api (= 4.14.0)
     base64 (0.3.0)
     bigdecimal (4.1.3)
     bindex (0.8.1)
@@ -63,6 +67,7 @@ GEM
     crass (1.0.7)
     diff-lcs (1.6.2)
     drb (2.2.3)
+    dumb_delegator (1.1.0)
     erb (6.0.7)
     erubi (1.13.1)
     ffi (1.17.4)
@@ -215,7 +220,13 @@ GEM
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
+    rubyzip (3.7.0)
     securerandom (0.4.1)
+    selenium-webdriver (4.51.0)
+      base64 (~> 0.2)
+      logger (~> 1.4)
+      rubyzip (>= 1.2.2, < 4.0)
+      websocket (~> 1.0)
     thor (1.5.0)
     timeout (0.6.1)
     tsort (0.2.0)
@@ -235,6 +246,7 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
+    websocket (1.2.11)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.8.3)
@@ -247,6 +259,7 @@ DEPENDENCIES
   actionview (~> 8.1)
   activemodel (~> 8.1)
   activerecord (~> 8.1)
+  axe-core-rspec
   capybara
   listen
   newrelic_rpm
@@ -260,6 +273,7 @@ DEPENDENCIES
   rspec-rails
   rspec_junit_formatter
   rubocop-rails-omakase
+  selenium-webdriver
   vcr
   web-console
   webmock
