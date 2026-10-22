@@ -12,6 +12,7 @@ gem "railties", "~> 8.1"
 
 gem "faraday"
 gem "faraday-follow_redirects"
+gem "faraday-retry"
 gem "newrelic_rpm"
 gem "nokogiri"
 gem "pg"
