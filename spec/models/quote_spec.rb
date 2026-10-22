@@ -35,6 +35,31 @@ RSpec.describe Quote do
     end
   end
 
+  describe ".unused" do
+    it "excludes quotes that have been used" do
+      unused = Quote.create!(body: "Fresh", author: "A", source_id: 1, url: "https://x.com/1")
+      Quote.create!(body: "Spent", author: "B", source_id: 2, url: "https://x.com/2", used_at: 1.hour.ago)
+
+      expect(Quote.unused).to contain_exactly(unused)
+    end
+  end
+
+  describe "#used!" do
+    it "stamps used_at" do
+      quote = Quote.create!(body: "Fresh", author: "A", source_id: 1, url: "https://x.com/1")
+
+      expect { quote.used! }.to change { quote.reload.used_at }.from(nil)
+    end
+
+    it "removes the quote from the unused pool" do
+      quote = Quote.create!(body: "Fresh", author: "A", source_id: 1, url: "https://x.com/1")
+
+      quote.used!
+
+      expect(Quote.unused).to be_empty
+    end
+  end
+
   describe ".next!" do
     def create_quotes(count, used: false)
       count.times do |i|
