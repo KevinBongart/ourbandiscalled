@@ -1,5 +1,2 @@
 inherit_gem:
   rubocop-rails-omakase: rubocop.yml
-
-Layout/SpaceInsideArrayLiteralBrackets:
-  EnforcedStyle: no_space
