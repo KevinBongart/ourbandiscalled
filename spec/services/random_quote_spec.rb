@@ -3,9 +3,7 @@ require "rails_helper"
 RSpec.describe RandomQuote do
   describe ".call" do
     it "returns a quotation built from the next quote in the pool" do
-      allow(Quote).to receive(:next!).and_return(
-        double(body: "Nothing beats a great pair of shoes.", url: "https://www.quotationspage.com/quote/42.html")
-      )
+      stub_next_quote(body: "Nothing beats a great pair of shoes.")
 
       quotation = described_class.call
 

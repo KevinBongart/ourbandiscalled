@@ -1,21 +1,11 @@
 require "rails_helper"
 
 RSpec.describe RandomFlickrPhoto do
-  let(:explore_html) do
-    <<~HTML
-      <html><body>
-        <div class="photo-list-photo-container">
-          <img src="//live.staticflickr.com/65535/11111_aaaaa.jpg">
-        </div>
-        <div class="photo-list-photo-container">
-          <img src="//live.staticflickr.com/65535/22222_bbbbb.jpg">
-        </div>
-      </body></html>
-    HTML
-  end
-
   before do
-    stub_request(:get, RandomFlickrPhoto::EXPLORE_URL).to_return(status: 200, body: explore_html)
+    stub_flickr(photo_paths: [
+      "//live.staticflickr.com/65535/11111_aaaaa.jpg",
+      "//live.staticflickr.com/65535/22222_bbbbb.jpg"
+    ])
   end
 
   describe ".call" do

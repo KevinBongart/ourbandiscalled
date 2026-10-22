@@ -1,6 +1,7 @@
 # Fetches a random article from the Wikipedia API and exposes the pieces of it
 # a Record needs: a cleaned-up band name and a permalink.
 class RandomWikipediaPage
+  include Callable
   include HttpFetchable
 
   API_URL = "https://en.wikipedia.org/w/api.php?action=query&list=random&rnlimit=1&rnnamespace=0&format=json"
@@ -15,10 +16,6 @@ class RandomWikipediaPage
     def url
       "https://en.wikipedia.org/wiki/?curid=#{id}"
     end
-  end
-
-  def self.call
-    new.call
   end
 
   def call

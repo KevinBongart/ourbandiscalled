@@ -1,19 +1,6 @@
 require "rails_helper"
 
 RSpec.describe Quote do
-  let(:quotations_page_html) do
-    <<~HTML
-      <html><body><dl>
-        <dt class="quote"><a href="/quote/100.html">First quote text.</a></dt>
-        <dd class="author"><div class="icons"></div><b><a href="/quotes/Author_One/">Author One</a></b></dd>
-        <dt class="quote"><a href="/quote/200.html">Second quote text here.</a></dt>
-        <dd class="author"><div class="icons"></div><b><a href="/quotes/Author_Two/">Author Two</a> (1900 - 1980)</b></dd>
-        <dt class="quote"><a href="/quote/300.html">Third and final text.</a></dt>
-        <dd class="author"><div class="icons"></div><b><a href="/quotes/Author_Three/">Author Three</a></b></dd>
-      </dl></body></html>
-    HTML
-  end
-
   describe "validations" do
     it "is valid with all required fields" do
       quote = Quote.new(
@@ -82,8 +69,7 @@ RSpec.describe Quote do
     context "with fewer than 20 unused quotes" do
       before do
         create_quotes(5)
-        stub_request(:get, "https://www.quotationspage.com/random.php")
-          .to_return(body: quotations_page_html, status: 200)
+        stub_quotations_page
       end
 
       it "fetches more quotes" do
@@ -100,8 +86,7 @@ RSpec.describe Quote do
 
     context "with an empty database and a failed scrape" do
       before do
-        stub_request(:get, "https://www.quotationspage.com/random.php")
-          .to_return(body: "<html><body><dl></dl></body></html>", status: 200)
+        stub_quotations_page(quotations: [])
       end
 
       it "raises when no quotes can be found or fetched" do
@@ -112,22 +97,8 @@ RSpec.describe Quote do
 end
 
 RSpec.describe FetchQuotes do
-  let(:quotations_page_html) do
-    <<~HTML
-      <html><body><dl>
-        <dt class="quote"><a href="/quote/100.html">First quote text.</a></dt>
-        <dd class="author"><div class="icons"></div><b><a href="/quotes/Author_One/">Author One</a></b></dd>
-        <dt class="quote"><a href="/quote/200.html">Second quote text here.</a></dt>
-        <dd class="author"><div class="icons"></div><b><a href="/quotes/Author_Two/">Author Two</a> (1900 - 1980)</b></dd>
-        <dt class="quote"><a href="/quote/300.html">Third and final text.</a></dt>
-        <dd class="author"><div class="icons"></div><b><a href="/quotes/Author_Three/">Author Three</a></b></dd>
-      </dl></body></html>
-    HTML
-  end
-
   before do
-    stub_request(:get, "https://www.quotationspage.com/random.php")
-      .to_return(body: quotations_page_html, status: 200)
+    stub_quotations_page
   end
 
   describe ".call" do

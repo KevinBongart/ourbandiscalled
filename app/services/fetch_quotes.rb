@@ -1,9 +1,8 @@
 class FetchQuotes
+  include Callable
   include HttpFetchable
 
-  def self.call
-    new.call
-  end
+  RANDOM_URL = "https://www.quotationspage.com/random.php"
 
   def call
     rows = scrape
@@ -21,7 +20,7 @@ class FetchQuotes
   private
 
   def scrape
-    doc = Nokogiri::HTML(http_get("https://www.quotationspage.com/random.php"))
+    doc = Nokogiri::HTML(http_get(RANDOM_URL))
 
     doc.css("dt.quote").map do |dt|
       link = dt.css("a").first

@@ -3,6 +3,7 @@
 # The scraped list is cached, so bursts of records share a single request and
 # still get different covers.
 class RandomFlickrPhoto
+  include Callable
   include HttpFetchable
 
   CACHE_KEY = "flickr_photos"
@@ -15,10 +16,6 @@ class RandomFlickrPhoto
     def page_url
       "http://flickr.com/photo.gne?id=#{image_url.split("/")[4].split("_")[0]}"
     end
-  end
-
-  def self.call
-    new.call
   end
 
   def call

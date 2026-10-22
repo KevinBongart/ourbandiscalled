@@ -1,5 +1,7 @@
 # Draws a quote from the pool and turns it into the album title.
 class RandomQuote
+  include Callable
+
   # Bill Harris' algorithm takes the tail end of the quote as the title.
   WORD_COUNT = 4
 
@@ -12,10 +14,6 @@ class RandomQuote
       words = words[0..-2] + [ words.last.delete(".") ]
       words.join(" ").titleize
     end
-  end
-
-  def self.call
-    new.call
   end
 
   def call
