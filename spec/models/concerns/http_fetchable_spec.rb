@@ -43,10 +43,34 @@ RSpec.describe HttpFetchable do
         .to raise_error(Faraday::ResourceNotFound)
     end
 
-    it "raises a server error for a 503" do
+    it "retries a transient server error and returns the retry's body" do
+      stub_request(:get, "https://example.org/flaky")
+        .to_return({ status: 503, body: "<!DOCTYPE html>" }, { status: 200, body: "recovered" })
+
+      expect(client.send(:http_get, "https://example.org/flaky")).to eq("recovered")
+      expect(WebMock).to have_requested(:get, "https://example.org/flaky").twice
+    end
+
+    it "gives up after the retry rather than retrying forever" do
       stub_request(:get, "https://example.org/down").to_return(status: 503)
 
       expect { client.send(:http_get, "https://example.org/down") }.to raise_error(Faraday::ServerError)
+      expect(WebMock).to have_requested(:get, "https://example.org/down").twice
+    end
+
+    it "does not retry a rate limit, which an immediate retry cannot clear" do
+      stub_request(:get, "https://example.org/limited")
+        .to_return(status: 429, headers: { "Retry-After" => "35" })
+
+      expect { client.send(:http_get, "https://example.org/limited") }.to raise_error(Faraday::TooManyRequestsError)
+      expect(WebMock).to have_requested(:get, "https://example.org/limited").once
+    end
+
+    it "does not retry a client error" do
+      stub_request(:get, "https://example.org/missing").to_return(status: 404)
+
+      expect { client.send(:http_get, "https://example.org/missing") }.to raise_error(Faraday::ResourceNotFound)
+      expect(WebMock).to have_requested(:get, "https://example.org/missing").once
     end
 
     it "follows a redirect instead of returning its body" do
@@ -69,6 +93,7 @@ RSpec.describe HttpFetchable do
       stub_request(:get, "https://example.org/slow").to_timeout
 
       expect { client.send(:http_get, "https://example.org/slow") }.to raise_error(Faraday::ConnectionFailed)
+      expect(WebMock).to have_requested(:get, "https://example.org/slow").once
     end
 
     it "identifies itself with a descriptive User-Agent" do
