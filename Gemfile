@@ -10,6 +10,8 @@ gem "activemodel", "~> 8.1"
 gem "activerecord", "~> 8.1"
 gem "railties", "~> 8.1"
 
+gem "faraday"
+gem "faraday-follow_redirects"
 gem "newrelic_rpm"
 gem "nokogiri"
 gem "pg"

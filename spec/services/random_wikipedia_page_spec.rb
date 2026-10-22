@@ -11,12 +11,51 @@ RSpec.describe RandomWikipediaPage do
       expect(page.title).to eq("Test Band")
     end
 
-    it "requests a single random article from the main namespace" do
+    it "reports a non-JSON response clearly, with a preview of what came back" do
+      stub_request(:get, RandomWikipediaPage::API_URL)
+        .to_return(status: 200, body: "<!DOCTYPE html><html><body>Our servers are busy</body></html>")
+
+      expect { described_class.call }.to raise_error(
+        RandomWikipediaPage::UnexpectedResponse,
+        /non-JSON response.*DOCTYPE/m
+      )
+    end
+
+    it "surfaces an upstream error status rather than parsing the error page" do
+      stub_request(:get, RandomWikipediaPage::API_URL).to_return(status: 503, body: "<!DOCTYPE html>")
+
+      expect { described_class.call }.to raise_error(Faraday::ServerError)
+    end
+
+    it "requests random articles from the main namespace" do
       stub_wikipedia(id: 1, title: "Anything")
 
       described_class.call
 
       expect(WebMock).to have_requested(:get, described_class::API_URL)
+    end
+
+    it "asks for a whole batch in one request" do
+      expect(described_class::API_URL).to include("rnlimit=#{described_class::BATCH_SIZE}")
+    end
+
+    it "serves a whole batch from a single request" do
+      pages = (1..described_class::BATCH_SIZE).map { |n| { id: n, title: "Band #{n}" } }
+      stub_wikipedia(pages: pages)
+
+      titles = Array.new(described_class::BATCH_SIZE) { described_class.call.title }
+
+      expect(titles).to eq(pages.map { |page| page[:title] })
+      expect(WebMock).to have_requested(:get, described_class::API_URL).once
+    end
+
+    it "fetches another batch once the pool is drained" do
+      stub_wikipedia(pages: [ { id: 1, title: "First" } ])
+
+      described_class.call
+      described_class.call
+
+      expect(WebMock).to have_requested(:get, described_class::API_URL).twice
     end
   end
 
