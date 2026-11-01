@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/KevinBongart/idiomatic-rails.git
+  revision: 2c81da47f4a3015656c2582eabd71aaf8c7b0d5f
+  specs:
+    idiomatic-rails (0.1.0)
+      actionview (>= 7.1)
+      activesupport (>= 7.1)
+      prism (>= 1.0)
+      rubocop (>= 1.72)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -64,7 +74,7 @@ GEM
     crack (1.0.1)
       bigdecimal
       rexml
-    crass (1.0.7)
+    crass (1.0.8)
     diff-lcs (1.6.2)
     drb (2.2.3)
     dumb_delegator (1.1.0)
@@ -120,7 +130,7 @@ GEM
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     parallel (2.3.0)
-    parser (3.3.12.0)
+    parser (3.3.13.0)
       ast (~> 2.4.1)
       racc
     pg (1.7.0)
@@ -206,7 +216,7 @@ GEM
     rspec-support (3.13.7)
     rspec_junit_formatter (0.8.0)
       rspec-core (>= 3.13, < 4)
-    rubocop (1.92.0)
+    rubocop (1.92.2)
       json (>= 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -279,6 +289,7 @@ DEPENDENCIES
   faraday
   faraday-follow_redirects
   faraday-retry
+  idiomatic-rails!
   listen
   newrelic_rpm
   nokogiri

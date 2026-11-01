@@ -28,6 +28,7 @@ end
 
 group :development do
   gem "listen"
+  gem "idiomatic-rails", github: "KevinBongart/idiomatic-rails", require: false
   gem "rubocop-rails-omakase", require: false
   gem "web-console"
 end
