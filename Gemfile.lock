@@ -70,7 +70,7 @@ GEM
     dumb_delegator (1.1.0)
     erb (6.0.7)
     erubi (1.13.1)
-    faraday (2.15.0)
+    faraday (2.15.1)
       faraday-net_http (>= 2.0, < 3.6)
       json
       logger
